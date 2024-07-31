@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Dynamic QR Code</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        button{
+            padding: 15px ;
+            margin-top: 80px;
+        }
+        #qrcode{
+            scale: 2;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="qrcode"></div>
+        <button id="generate">Generate New QR</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script type="text/javascript">
+        let qrcode = null;
+        let currentNumber = 1;
+        let qr = document.getElementById("qrcode");
+ 
+        function generateQRCode() {
+            qr.innerHTML = " ";
+            if (qrcode) {
+                qrcode.clear(); // Clear the previous QR code
+            }
+            qrcode = new QRCode(qr, {
+                text: `http://yourwebsite.com/qr-code?code=${currentNumber.toString()}`, // Include current number in the URL
+                width: 130,
+                height: 130,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            currentNumber++; // Increment the number for the next QR code
+        }
+
+        // Generate the initial QR code
+        generateQRCode();
+
+        // Event listener for the button
+        document.getElementById("generate").addEventListener("click", generateQRCode);
+    </script>
+</body>
+</html>
